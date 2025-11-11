@@ -94,14 +94,39 @@ function createUserFull(name){
     return {name, discordName, getReputation, giveReputation};
 }
 
-const josh = createUser("josh");
-josh.giveReputation();
-josh.giveReputation();
+// const josh = createUserFull("josh");
+// josh.giveReputation();
+// josh.giveReputation();
 
-console.log({
-  discordName: josh.discordName,
-  reputation: josh.getReputation()
-});
+// console.log({
+//   discordName: josh.discordName,
+//   reputation: josh.getReputation()
+// });
 // logs { discordName: "@josh", reputation: 2 }
 
-// ----------------------- Prototype inheritance with factories
+// ----------------------- Prototype inheritance with factories-------------------
+
+function createPlayer (name, level){
+    const {getReputation, giveReputation} = createUserFull(name);
+
+    const increaseLevel = () => level++;
+    return {name, getReputation, giveReputation, increaseLevel};
+}
+
+function createPlayer2 (name, level){
+    const user = createUserFull(name);
+
+    const increaseLevel = () => level++;
+    // use Object.assign to return an obj{} with one or more sources.
+    return Object.assign({}, user, {increaseLevel});
+}
+
+// -------------------------------- the module pattern. IIFEs-----------------------------------
+
+const calculator = (function (){
+    const add = (a, b) => a + b;
+    const sub = (a, b) => a - b;
+    const mul = (a, b) => a * b;
+    const div = (a, b) => a / b;
+    return {add, sub, mul, div};
+})()
